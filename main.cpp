@@ -50,7 +50,7 @@ int main(){
 
 	//Define topology of NN
 	topology.push_back(3);
-	topology.push_back(10);
+	topology.push_back(12);
 	topology.push_back(3);
 	//topology.push_back(10);
 	//topology.push_back(2);
@@ -75,7 +75,7 @@ int main(){
 		for (double y = -1.00; y <=1.00; y=y+0.01){
 			xInput.push_back(x);
 			yInput.push_back(y);
-			xyInput.push_back(x*y);
+			xyInput.push_back(0);
 		}
 	}
 	
@@ -202,6 +202,8 @@ Network testData (Network myNet, vector<double> xInput, vector<double> yInput, v
 		input.push_back(yInput[i]);
 		cout << input.back()<<" ";
 		input.push_back(xyInput[i]);
+		cout << input.back()<<" ";
+
 		myNet.feedForward(input);
 		myNet.getResults(resultVals);
 
@@ -262,11 +264,16 @@ void resultSet (vector<double> xInput, vector<double> yInput, vector<double> nRe
 	double buffer;
 	result.open("results.dat", ios::out | ios::trunc );
 
+	int i = 0;
 
+	for(double x = -1.00; x<= 1.00;x=x+0.01){
+		for(double y = -1.00; y<= 1.00;y=y+0.01){
 
-	for(int x = 0; x < xInput.size(); x++){
+		result << nResult[i] << " ";
+		i++;
+	}
 
-		result << xInput[x] << " " << yInput[x] <<" " << nResult[x] << endl;
+	result << endl;
 
 	}
 

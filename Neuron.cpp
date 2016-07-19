@@ -43,12 +43,7 @@ void Neuron::weightInputUpdate(Layer &prevLayer) { //Update weights in the conne
 		Neuron &neuron = prevLayer[n];
 		double oldDeltaWeight = neuron.neuronWeights[neuronIndex].deltaweight;
 
-		double newDeltaWeight = 
-					eta
-					* neuron.getOutputVal()
-					* gradient
-					+ alpha
-					*oldDeltaWeight;
+		double newDeltaWeight = eta * neuron.getOutputVal() * gradient + alpha * oldDeltaWeight;
 
 		neuron.neuronWeights[neuronIndex].deltaweight = newDeltaWeight;
 		neuron.neuronWeights[neuronIndex].weight += newDeltaWeight;

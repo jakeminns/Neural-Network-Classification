@@ -121,8 +121,19 @@ Network::Network(const vector<unsigned> &topology) {
 	unsigned numberLayers = topology.size(); //number of layers descirbes how many layers in the neural network from the input topology vector.
 
 	for(unsigned layerIndex = 0; layerIndex <  numberLayers; layerIndex++){ //Generate layers of neurons in neuronLayer from the topology specified.
+		
 		neuronLayers.push_back(Layer()); //Add Layer of neurons to neuronLayer vector.
-		unsigned numberOutputs = layerIndex == topology.size() - 1 ? 0 : topology[layerIndex + 1]; //The number of outputs is 0 if the neuron is in the output layer (final layer) and equal to the number of neurons in the next layer for all other neurons
+
+		unsigned numberOutputs;
+
+		if( layerIndex == topology.size() - 1){
+			numberOutputs = 0;
+		} else {
+			numberOutputs = topology[layerIndex +1];
+		}
+		
+		//unsigned numberOutputs = layerIndex == topology.size() - 1 ? 0 : topology[layerIndex + 1]; //The number of outputs is 0 if the neuron is in the output layer (final layer) and equal to the number of neurons in the next layer for all other neurons
+		
 		for(unsigned neuronIndex = 0; neuronIndex <= topology[layerIndex]; neuronIndex++){ //Add a number of neurons to each layer vector defined by how many specifed in the topology + a bias neuron (<=).
 
 			neuronLayers.back().push_back(Neuron(numberOutputs, neuronIndex)); //Add neuron to most recent neuronLayers layer genrated.

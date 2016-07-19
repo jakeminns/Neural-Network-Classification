@@ -18,7 +18,12 @@ double randRadius(int lowLimit, int highLimit);
 int main(){
 
 	fstream data;
-	data.open("training.txt", ios::out | ios::trunc);
+	fstream train;
+
+	data.open("grid.dat", ios::out | ios::trunc);
+	train.open("training.txt", ios::out | ios::trunc);
+
+
 
 	//Positive data
 
@@ -32,7 +37,8 @@ int main(){
 		y = 0.5+r*cos(theta);
 		x = 0.5+r*sin(theta);
 
-		data << setprecision(3) << fixed << x << " "<< y << " " <<x*y << " 1" <<endl;
+		train << setprecision(3) << fixed << x << " "<< y << " " <<x*y << " 1" <<endl;
+		data << setprecision(3) << fixed << x << " "<< y << " 1" <<endl;
 
 		
 		double theta2=randTheta();
@@ -41,7 +47,9 @@ int main(){
 		y = -0.5+r*cos(theta2);
 		x = 0.5+r*sin(theta2);
 
-		data << setprecision(3) << fixed << x << " "<< y << " " << x*y <<" -1" <<endl;
+		train << setprecision(3) << fixed << x << " "<< y << " " << x*y <<" -1" <<endl;
+		data << setprecision(3) << fixed << x << " "<< y << "-1" <<endl;
+
 
 		double theta3=randTheta();
 
@@ -49,7 +57,8 @@ int main(){
 		y = -0.5+r*cos(theta3);
 		x = -0.5+r*sin(theta3);
 
-		data << setprecision(3) << fixed << x << " "<< y << " " << x*y <<" 1" <<endl;
+		train << setprecision(3) << fixed << x << " "<< y << " " << x*y <<" 1" <<endl;
+		data << setprecision(3) << fixed << x << " "<< y << " 1" <<endl;
 
 		double theta4=randTheta();
 
@@ -57,7 +66,8 @@ int main(){
 		y = 0.5+r*cos(theta4);
 		x = -0.5+r*sin(theta4);
 
-		data << setprecision(3) << fixed << x << " "<< y << " " << x*y <<" -1" <<endl;
+		train << setprecision(3) << fixed << x << " "<< y << " " << x*y <<" -1" <<endl;
+		data << setprecision(3) << fixed << x << " "<< y << " -1" <<endl;
 
 	}
 
