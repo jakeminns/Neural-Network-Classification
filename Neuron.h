@@ -22,15 +22,17 @@ using namespace std;
 
 class Neuron {
 
-		typedef vector<Neuron> Layer;
+	typedef vector<Neuron> Layer;
 
-			struct Connection {
-	double weight;
-	double deltaweight;
+	struct Connection {
+		double weight;
+		double deltaweight;
+
 	};
 
 
 public:
+	
 	Neuron(unsigned numberOutputs, unsigned currentNeuronIndex);
 	void setOutputValue(double value) {neuronOutputVals = value;}
 	double getOutputVal(void) const {return neuronOutputVals; }

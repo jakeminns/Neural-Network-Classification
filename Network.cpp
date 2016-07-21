@@ -16,19 +16,61 @@ using namespace std;
 typedef vector<Neuron> Layer;
 
 
+Network::Network(const vector<unsigned> &topology) { //Network Constructor builds the network of layers containing neurons dependent on the topology vector
 
-void Network::getResults(vector<double> &resultVals) const {
+	unsigned numberLayers = topology.size(); //number of layers descirbes how many layers in the neural network from the input topology vector.
 
-	resultVals.clear();
+	for(unsigned layerIndex = 0; layerIndex <  numberLayers; layerIndex++){ //Generate layers of neurons in neuronLayer from the topology specified.
+		
+		neuronLayers.push_back(Layer()); //Add Layer of neurons to neuronLayer vector.
 
-	for(unsigned n = 0; n < neuronLayers.back().size() - 1; n++){
+		unsigned numberOutputs;
 
-		resultVals.push_back(neuronLayers.back()[n].getOutputVal());
+		if( layerIndex == topology.size() - 1){ //If layer index is output layer (final layer) add zero outputs
+			numberOutputs = 0;
+		} else { //Otherwise the number of oututs of the neuron is the number of neurons in the next level
+			numberOutputs = topology[layerIndex +1];
+		}
+		
+
+		for(unsigned neuronIndex = 0; neuronIndex <= topology[layerIndex]; neuronIndex++){ //Add a number of neurons to each layer vector defined by how many specifed in the topology + a bias neuron (<=).
+
+			neuronLayers.back().push_back(Neuron(numberOutputs, neuronIndex)); //Add neuron to most recent neuronLayers layer genrated.
+		}
+
+		neuronLayers.back().back().setOutputValue(1.0);
 
 	}
 
+
 }
 
+void Network::feedForward(const vector<double> &inputVals) { //Feedforward function that takes inputVals vector
+
+	assert(inputVals.size() == neuronLayers[0].size() - 1); //Check number of input neurons = number of input values, " - 1" accounts for bias neuron;
+
+	for(int i = 0; i < inputVals.size(); i++) { //Loop through neurons input layer
+
+		neuronLayers[0][i].setOutputValue(inputVals[i]); //Setting input layer neurons output to input value
+
+	}
+
+
+	for(int layerIndex = 1; layerIndex < neuronLayers.size(); layerIndex++){ //Go through all layers except input
+
+		Layer &previousLayer = neuronLayers[layerIndex - 1]; //Store variable of previous layers to be fed into neuron feedForward function
+
+		for(int n = 0; n < neuronLayers[layerIndex].size() - 1; n++){ //Go through each neuron except bias
+
+			neuronLayers[layerIndex][n].neuronFeedForward(previousLayer); //Apply function feedForward (of neuron class!) to each neuron, feed in previous laer
+
+		}
+
+
+	}
+
+
+}
 
 
 void Network::backProp(const vector<double> &targetVals) {
@@ -86,62 +128,23 @@ void Network::backProp(const vector<double> &targetVals) {
 
 
 
+void Network::getResults(vector<double> &resultVals) const {
 
+	resultVals.clear();
 
-void Network::feedForward(const vector<double> &inputVals) {
+	for(unsigned n = 0; n < neuronLayers.back().size() - 1; n++){
 
-	assert(inputVals.size() == neuronLayers[0].size() - 1); //Check number of input neurons = number of input values, " - 1" accounts for bias neuron;
-
-	for(unsigned i = 0; i < inputVals.size(); i++) { //Loop through neurons input layer
-
-		neuronLayers[0][i].setOutputValue(inputVals[i]); //Setting input layer neurons output to input value
+		resultVals.push_back(neuronLayers.back()[n].getOutputVal());
 
 	}
-
-
-	for(unsigned layerIndex = 1; layerIndex < neuronLayers.size(); layerIndex++){ //Go through all layers except input
-
-		Layer &previousLayer = neuronLayers[layerIndex - 1]; //Store variable of previous layers to be fed into neuron feedForward function
-
-		for(unsigned n = 0; n < neuronLayers[layerIndex].size() - 1; n++){ //Go through each neuron except bias
-
-			neuronLayers[layerIndex][n].neuronFeedForward(previousLayer); //Apply function feedForward (of neuron class!) to each neuron, feed in previous laer
-
-		}
-
-
-	}
-
 
 }
 
 
-Network::Network(const vector<unsigned> &topology) {
-
-	unsigned numberLayers = topology.size(); //number of layers descirbes how many layers in the neural network from the input topology vector.
-
-	for(unsigned layerIndex = 0; layerIndex <  numberLayers; layerIndex++){ //Generate layers of neurons in neuronLayer from the topology specified.
-		
-		neuronLayers.push_back(Layer()); //Add Layer of neurons to neuronLayer vector.
-
-		unsigned numberOutputs;
-
-		if( layerIndex == topology.size() - 1){
-			numberOutputs = 0;
-		} else {
-			numberOutputs = topology[layerIndex +1];
-		}
-		
-		//unsigned numberOutputs = layerIndex == topology.size() - 1 ? 0 : topology[layerIndex + 1]; //The number of outputs is 0 if the neuron is in the output layer (final layer) and equal to the number of neurons in the next layer for all other neurons
-		
-		for(unsigned neuronIndex = 0; neuronIndex <= topology[layerIndex]; neuronIndex++){ //Add a number of neurons to each layer vector defined by how many specifed in the topology + a bias neuron (<=).
-
-			neuronLayers.back().push_back(Neuron(numberOutputs, neuronIndex)); //Add neuron to most recent neuronLayers layer genrated.
-		}
-
-		neuronLayers.back().back().setOutputValue(1.0);
-
-	}
 
 
-}
+
+
+
+
+
