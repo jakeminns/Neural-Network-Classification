@@ -1,5 +1,7 @@
 // Neural Network Image Recognition, Jake Minns
-
+// Live learning update
+//Noise option
+//Choose activation function
 #include <vector>
 #include <iostream>
 #include <cstdlib>
@@ -56,13 +58,13 @@ int main(){
 	cout << "Provide the Properties to be feed in. Enter a 1 for on and 0 for off for the following features, x, y, xy, x^2, y^2, sin(x), sin(y). (E.g: 1 1 1 0 0 0 0): ";
 	cin >> x >> y >> xy >> xx >> yy>> sinx >> siny;
 
-	cout << "Enter Number of Learning Itterations: ";
+	cout << "Enter Number of Learning Itterations (Recomended 1000): ";
 	cin >> learnItt;
 
-	cout << "Enter Number of Hidden Layers:";
+	cout << "Enter Number of Hidden Layers (Recomended 2):";
 	cin >> layernum;
 
-	cout << "You have Entered " << layernum << " Hidden layers. For Each layer Provide the number of Neurons:" <<endl;
+	cout << "You have Entered " << layernum << " Hidden layers. For Each layer Provide the number of Neurons (Recomended 12 neurons in the first layer and 3 in the second for 2 hidden layers):" <<endl;
 
 	topology.push_back(7);
 	

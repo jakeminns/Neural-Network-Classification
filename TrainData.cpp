@@ -54,7 +54,7 @@ void swirl(vector<int> inputProp){
 
 
 
-	for (double i =1;i<720;i++){
+	for (double i =1;i<630;i++){
 
 		double y_temp, x_temp;
 		double y = 0.00, x=0.00, r, xy=0.00, xx=0.00, yy=0.00, sinx=0.00, siny=0.00;

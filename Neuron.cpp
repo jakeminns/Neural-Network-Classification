@@ -21,7 +21,7 @@ using namespace std;
 typedef vector<Neuron> Layer;
 
 
-double Neuron::eta = 0.03;
+double Neuron::eta = 0.1;
 double Neuron::alpha = 0.5;
 
 
