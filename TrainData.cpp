@@ -60,7 +60,7 @@ void swirl(vector<int> inputProp){
 		double y = 0.00, x=0.00, r, xy=0.00, xx=0.00, yy=0.00, sinx=0.00, siny=0.00;
 
 		double theta=i*3.14159/180;
-		r = (i/900);
+		r = (i/630);
 		//noise = ((rand() % (100)+1)*0.001)*(i/900);
 		y_temp = (r*cos(theta));
 		x_temp = (r*sin(theta));
@@ -77,20 +77,20 @@ void swirl(vector<int> inputProp){
 			}
 
 			if(inputProp[3] == 1){
-				xx = x_temp*x_temp;
+				xx = cos(x_temp*2*3.14159);
 			}
 
 
 			if(inputProp[4] == 1){
-				yy = y_temp*y_temp;
+				yy = cos(y_temp*2*3.14159);
 			}
 
 			if(inputProp[5] == 1){
-				sinx = sin(x_temp);
+				sinx = sin(x_temp*2*3.14159);
 			}
 
 			if(inputProp[6] == 1){
-				siny = sin(y_temp);
+				siny = sin(y_temp*2*3.14159);
 			}
 
 		train << setprecision(3) << fixed << x << " "<< y << " " << xy << " " << xx << " " << yy << " " << sinx << " " << siny << " " << "1"<<endl;
@@ -100,7 +100,7 @@ void swirl(vector<int> inputProp){
 		x=i+180;
 
 		theta=x*3.14159/180;
-		r = (rCheck/900);
+		r = (rCheck/630);
 		//noise = ((rand() % (100)+1)*0.001)*(i/900);
 		y = (r*cos(theta));
 		x = (r*sin(theta));

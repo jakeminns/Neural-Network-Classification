@@ -45,7 +45,7 @@ Network::Network(const vector<unsigned> &topology) { //Network Constructor build
 
 }
 
-void Network::feedForward(const vector<double> &inputVals) { //Feedforward function that takes inputVals vector
+void Network::feedForward(const vector<double> &inputVals, int activationType) { //Feedforward function that takes inputVals vector
 
 	assert(inputVals.size() == neuronLayers[0].size() - 1); //Check number of input neurons = number of input values, " - 1" accounts for bias neuron;
 
@@ -62,7 +62,7 @@ void Network::feedForward(const vector<double> &inputVals) { //Feedforward funct
 
 		for(int n = 0; n < neuronLayers[layerIndex].size() - 1; n++){ //Go through each neuron except bias
 
-			neuronLayers[layerIndex][n].neuronFeedForward(previousLayer); //Apply function feedForward (of neuron class!) to each neuron, feed in previous laer
+			neuronLayers[layerIndex][n].neuronFeedForward(previousLayer, activationType); //Apply function feedForward (of neuron class!) to each neuron, feed in previous laer
 
 		}
 
@@ -73,7 +73,7 @@ void Network::feedForward(const vector<double> &inputVals) { //Feedforward funct
 }
 
 
-void Network::backProp(const vector<double> &targetVals) {
+void Network::backProp(const vector<double> &targetVals, int activationType) {
 
 	Layer &outputLayer = neuronLayers.back(); //Create layers type layer of output layer
 
@@ -93,7 +93,7 @@ void Network::backProp(const vector<double> &targetVals) {
 
 	for(unsigned n = 0; n < outputLayer.size()-1; n++) {
 
-		outputLayer[n].calculateOutputGradients(targetVals[n]); //Calculate gradient for output layer
+		outputLayer[n].calculateOutputGradients(targetVals[n], activationType); //Calculate gradient for output layer
 
 	}
 
@@ -103,7 +103,7 @@ void Network::backProp(const vector<double> &targetVals) {
 		Layer &nextLayer = neuronLayers[layerIndex +1];
 
 		for(unsigned n = 0; n<hiddenLayer.size(); ++n) {
-			hiddenLayer[n].calculatehiddenGradients(nextLayer); //Calculate gradient of hidden layer
+			hiddenLayer[n].calculatehiddenGradients(nextLayer, activationType); //Calculate gradient of hidden layer
 		}
 
 	}

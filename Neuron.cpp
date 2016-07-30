@@ -20,9 +20,8 @@ using namespace std;
 
 typedef vector<Neuron> Layer;
 
-
-double Neuron::eta = 0.1;
-double Neuron::alpha = 0.5;
+double Neuron::eta = 0.01;
+double Neuron::alpha = 0.001;
 
 
 Neuron::Neuron(unsigned numberOutputs, unsigned currentNeuronIndex) { //Neuron constructor adds vector of connection (neuronWeights) to neuron and adds random weight to each connection
@@ -36,7 +35,7 @@ Neuron::Neuron(unsigned numberOutputs, unsigned currentNeuronIndex) { //Neuron c
 	neuronIndex = currentNeuronIndex;
 }
 
-void Neuron::neuronFeedForward(const Layer &previousLayer) {
+void Neuron::neuronFeedForward(const Layer &previousLayer, int activationType) {
 
 	double sum = 0.0;
 
@@ -47,14 +46,25 @@ void Neuron::neuronFeedForward(const Layer &previousLayer) {
 
 	}
 
-	neuronOutputVals = Neuron::activationFunction(sum); //neuron output value is the activation function applied to the sum, sum = sum of x*w + b. activation function is sigmoid.
+	neuronOutputVals = Neuron::activationFunction(sum, activationType); //neuron output value is the activation function applied to the sum, sum = sum of x*w + b. activation function is sigmoid.
 
 }
 
 
-double Neuron::activationFunction(double x) {
+double Neuron::activationFunction(double x, int activationType) {
+	double activationValue;
 
-	return tanh(x); //Return sigmoid function
+	if (activationType == 1){
+		activationValue = tanh(x);
+	}
+	if (activationType == 2){
+		double sigmoid = 1/(1+pow(2.71828,-x));
+		activationValue = (sigmoid-0.5)*2;
+		//activationValue = sin(x);
+
+	}
+
+	return activationValue; //Return sigmoid function
 
 }
 
@@ -95,30 +105,40 @@ double Neuron::sumDOW(const Layer &nextLayer) const {
 }
 
 
-void Neuron::calculatehiddenGradients(const Layer &nextLayer) {
+void Neuron::calculatehiddenGradients(const Layer &nextLayer, int activationType) {
 
 	double dow =sumDOW(nextLayer); //No target value so difference is calculated from the sum of the derivaties of the weights in the next layer  
-	gradient = dow * Neuron::activationFunctionDerivative(neuronOutputVals); //Hidden gradient 
+	gradient = dow * Neuron::activationFunctionDerivative(neuronOutputVals, activationType); //Hidden gradient 
 
 }
 
 
-void Neuron::calculateOutputGradients(double targetVal) {
+void Neuron::calculateOutputGradients(double targetVal, int activationType) {
 
 	double delta = targetVal - neuronOutputVals; //Difference between target value and neuron output
-	gradient = delta * Neuron::activationFunctionDerivative(neuronOutputVals); //Multiply difference by the derivative of the output to give the gradient of the output layer
+	gradient = delta * Neuron::activationFunctionDerivative(neuronOutputVals, activationType); //Multiply difference by the derivative of the output to give the gradient of the output layer
 
 
 }
 
 
 
-double Neuron::activationFunctionDerivative(double x) {
+double Neuron::activationFunctionDerivative(double x, int activationType) {
 
-	double sigmoid = 1/(1+pow(2.71828,-x));
+	double activationValue;
 
-	return (1/cosh(x))*(1/cosh(x)); //Return derivative of sigmoid function
+	if (activationType == 1){
+		activationValue = (1/cosh(x))*(1/cosh(x));
+	}
+	if (activationType == 2){
+		double sigmoid = 1/(1+pow(2.71828,-x));
+		activationValue = 2*sigmoid*sigmoid*(pow(2.71828,-x));
+		//cout << activationValue<<endl;
+		//activationValue = cos(x);
+	}
 
+
+	return activationValue; //Return derivative of sigmoid functio
 
 }
 

@@ -22,8 +22,8 @@ class Network {
 public:
 
 	Network(const vector<unsigned> &topology);
-	void feedForward(const vector<double> &inputVals);
-	void backProp(const vector<double> &targetVals);
+	void feedForward(const vector<double> &inputVals, int activationType);
+	void backProp(const vector<double> &targetVals, int activationType);
 	void getResults(vector<double> &resultVals) const;
 
 private:

@@ -36,22 +36,23 @@ public:
 	Neuron(unsigned numberOutputs, unsigned currentNeuronIndex);
 	void setOutputValue(double value) {neuronOutputVals = value;}
 	double getOutputVal(void) const {return neuronOutputVals; }
-	void neuronFeedForward(const Layer &previousLayer);
-	void calculateOutputGradients(double targetVal);
-	void calculatehiddenGradients(const Layer &nextLayer);
+	void neuronFeedForward(const Layer &previousLayer, int activationType);
+	void calculateOutputGradients(double targetVal, int activationType);
+	void calculatehiddenGradients(const Layer &nextLayer, int activationType);
 	void weightInputUpdate(Layer &prevLayer);
+	static double eta;
+	static double alpha;
 
 private: 
-	static double activationFunction(double x);
-	static double activationFunctionDerivative(double x);
+	static double activationFunction(double x, int activationType);
+	static double activationFunctionDerivative(double x, int activationType);
 	double neuronOutputVals;
 	vector<Connection> neuronWeights;
 	static double randomWeight(void) { return rand()/double(RAND_MAX);}
 	unsigned neuronIndex;
 	double gradient;
 	double sumDOW(const Layer &nextLayer) const;
-	static double eta;
-	static double alpha;
+
 
 
 
